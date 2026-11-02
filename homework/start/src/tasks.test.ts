@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { createTask, visibleTasks, seedTasks, renameTask, openCount } from "./tasks"
+import { createTask, visibleTasks, seedTasks, renameTask, openCount, isBlankTitle } from "./tasks"
 
 // Два теста, с которыми поставляется стартер. Они проходят и не покрывают
 // поведение, описанное в ISSUE-7.md.
@@ -45,3 +45,14 @@ describe("R3: uncompleted tasks counter (openCount)", () => {
     })
 })
 
+
+describe("changing requirements: U+200B (zero-width space)", () => {
+    it("marks a string of U+200B as white space type string and trims a string with  U+200B ", () => {
+        expect(isBlankTitle("\u200B")).toBe(true)
+        expect(isBlankTitle(" \u200B \t ")).toBe(true)
+        expect(createTask(11, "\u200B\u200B")).toBeUndefined()
+        expect(createTask(12, "\u200BTask\u200B")?.title).toBe("Task")
+        const updated = renameTask(seedTasks, 1, "\u200B")
+        expect(updated.find((t) => t.id === 1)?.title).toBe("Сдать лабораторную")
+    })
+})

@@ -2,6 +2,7 @@ import { useState } from "react"
 import {
     createTask,
     Filter,
+    isBlankTitle,
     openCount,
     renameTask,
     seedTasks,
@@ -19,6 +20,7 @@ export function App() {
     const [tasks, setTasks] = useState<Task[]>(seedTasks)
     const [filter, setFilter] = useState<Filter>("all")
     const [draft, setDraft] = useState("")
+    const [warning, setWarning] = useState<string | null>(null)
 
     function add() {
         const next = createTask(tasks.length + 1, draft)
@@ -29,8 +31,11 @@ export function App() {
     function rename(task: Task) {
         const title = window.prompt("Название", task.title)
         if (title == null) return
-        // Старая форма сохраняла название без проверки; этот путь оставлен
-        // ради редактирования в один шаг, и issue #7 именно про него.
+        if (isBlankTitle(title)) {
+            setWarning("Название не может быть пустым")
+            return
+        }
+        setWarning(null)
         setTasks(renameTask(tasks, task.id, title))
     }
 
@@ -42,6 +47,9 @@ export function App() {
             <p style={{ margin: "0 0 16px", color: "#555" }}>
                 Открытых: {openCount(tasks)}
             </p>
+            {warning !== null && (
+                <p style={{ margin: "0 0 16px", color: "#b00020" }}>{warning}</p>
+            )}
 
             <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
                 {FILTERS.map((f) => (
