@@ -141,3 +141,53 @@ Received: [31m"[7m  [27mКупить хлеб[7m  [27m"[39m
 [2m   Start at [22m 06:43:12
 [2m   Duration [22m 89ms[2m (import 36%, tests 32%, transform 21%, worker 11%)[22m
 
+===Block d
+
+> test
+> vitest run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.5 [39m[90m/home/computer/temp3/agentic-class/homework/start[39m
+
+ [31m❯[39m src/tasks.test.ts [2m([22m[2m8 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 7[2mms[22m[39m
+   [32m✓[39m базовая доска [2m(3)[22m
+     [32m✓[39m создаёт задачу и обрезает название[32m 1[2mms[22m[39m
+     [32m✓[39m does not create a task with white type space name[32m 0[2mms[22m[39m
+     [32m✓[39m фильтрует готовые задачи[32m 0[2mms[22m[39m
+   [32m✓[39m R1: renaming task (renameTask) [2m(2)[22m
+     [32m✓[39m cut white space type characters when renaming a task[32m 0[2mms[22m[39m
+     [32m✓[39m rejects creating a task with white space type name[32m 0[2mms[22m[39m
+   [32m✓[39m R2: filters(hides) tasks with white space type name (visibleTasks) [2m(1)[22m
+     [32m✓[39m does not show white space type string in all и open[32m 0[2mms[22m[39m
+   [32m✓[39m R3: uncompleted tasks counter (openCount) [2m(1)[22m
+     [32m✓[39m does not count tasks with white space type names[32m 0[2mms[22m[39m
+   [31m❯[39m changing requirements: U+200B (zero-width space) [2m(1)[22m
+[31m     [31m×[31m marks a string of U+200B as white space type string and trims a string with  U+200B [39m[32m 3[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/tasks.test.ts[2m > [22mchanging requirements: U+200B (zero-width space)[2m > [22mmarks a string of U+200B as white space type string and trims a string with  U+200B 
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m src/tasks.test.ts:[2m51:40[22m[39m
+    [90m 49|[39m describe("changing requirements: U+200B (zero-width space)", () => {
+    [90m 50|[39m     it("marks a string of U+200B as white space type string and trims …
+    [90m 51|[39m         expect(isBlankTitle("\u200B")).toBe(true)
+    [90m   |[39m                                        [31m^[39m
+    [90m 52|[39m         expect(isBlankTitle(" \u200B \t ")).toBe(true)
+    [90m 53|[39m         expect(createTask(11, "\u200B\u200B")).toBeUndefined()
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m7 passed[39m[22m[90m (8)[39m
+[2m   Start at [22m 06:48:15
+[2m   Duration [22m 88ms[2m (import 34%, tests 33%, transform 22%, worker 11%)[22m
+
